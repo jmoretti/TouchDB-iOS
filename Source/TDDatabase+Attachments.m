@@ -294,7 +294,9 @@
                 encodedLengthObj = @(encodedLength);
             }
         }
-
+        
+        NSString* filePath = [_attachments pathForKey: *(TDBlobKey*)keyData.bytes];
+        
         attachments[[r stringForColumnIndex: 0]] = $dict({@"stub", ((data || dataSuppressed) ? nil : $true)},
                                       {@"data", (data ? [TDBase64 encode: data] : nil)},
                                       {@"follows", (dataSuppressed ? $true : nil)},
@@ -303,6 +305,7 @@
                                       {@"encoding", encodingStr},
                                       {@"length", @(length)},
                                       {@"encoded_length", encodedLengthObj},
+                                      {@"file_path", filePath},
                                       {@"revpos", @([r intForColumnIndex: 6])});
     } while ([r next]);
     [r close];
